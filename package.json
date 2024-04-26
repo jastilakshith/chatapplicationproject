@@ -1,18 +1,16 @@
 {
-  "name": "chatapp",
+  "name": "chat_app_sockets",
   "version": "1.0.0",
-  "description": "This app allows multiple users to send messages to each other",
-  "main": "app.js",
+  "description": "a simple chat application using express.js and socket.io",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lakshith",
+  "author": "stillNovice",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.7.2",
-    "body-parser": "^1.20.2",
-    "express": "^4.19.2",
-    "mongoose": "^8.3.2",
-    "socket.io": "^4.7.5"
+    "express": "*",
+    "socket.io": "*",
+    "jquery-emoji-picker": "*"
   }
 }

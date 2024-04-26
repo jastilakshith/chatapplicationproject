@@ -1,258 +1,363 @@
-<!doctype html>
-<html>
+<!DOCTYPE>
+<html lang="en">
   <head>
-    <title>Real-time chat</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<!------ Include the above in your HEAD tag ---------->
-    <link href="C:\Users\jasti\CHATAPPLICATION\public\css\style.css" type="text/css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>CHAT APP</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <!-- jquery emoji picker -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.css">
+
+    <!-- Jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <!-- Emoji Data -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.emojipicker.tw.css">
+
+    <!-- Latest compiled and minified JavaScript 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    -->
+
     <style>
-      * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: #edeff2;
-    font-family: "Calibri", "Roboto", sans-serif;
-  }
-  
-  .chat_window {
-    position: absolute;
-    width: calc(100% - 20px);
-    max-width: 800px;
-    height: 500px;
-    border-radius: 10px;
-    background-color: #fff;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    background-color: #f8f8f8;
-    overflow: hidden;
-  }
-  
-  .top_menu {
-    background-color: #fff;
-    width: 100%;
-    padding: 20px 0 15px;
-    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
-  }
-  .top_menu .buttons {
-    margin: 3px 0 0 20px;
-    position: absolute;
-  }
-  .top_menu .buttons .button {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 10px;
-    position: relative;
-  }
-  .top_menu .buttons .button.close {
-    background-color: #f5886e;
-  }
-  .top_menu .buttons .button.minimize {
-    background-color: #fdbf68;
-  }
-  .top_menu .buttons .button.maximize {
-    background-color: #a3d063;
-  }
-  .top_menu .title {
-    text-align: center;
-    color: #bcbdc0;
-    font-size: 20px;
-  }
-  
-  .messages {
-    position: relative;
-    list-style: none;
-    padding: 20px 10px 0 10px;
-    margin: 0;
-    height: 347px;
-    overflow: scroll;
-  }
-  .messages .message {
-    clear: both;
-    overflow: hidden;
-    margin-bottom: 20px;
-    transition: all 0.5s linear;
-    opacity: 0;
-  }
-  .messages .message.left .avatar {
-    background-color: #f5886e;
-    float: left;
-  }
-  .messages .message.left .text_wrapper {
-    background-color: #ffe6cb;
-    margin-left: 20px;
-  }
-  .messages .message.left .text_wrapper::after,
-  .messages .message.left .text_wrapper::before {
-    right: 100%;
-    border-right-color: #ffe6cb;
-  }
-  .messages .message.left .text {
-    color: #c48843;
-  }
-  .messages .message.right .avatar {
-    background-color: #fdbf68;
-    float: right;
-  }
-  .messages .message.right .text_wrapper {
-    background-color: #c7eafc;
-    margin-right: 20px;
-    float: right;
-  }
-  .messages .message.right .text_wrapper::after,
-  .messages .message.right .text_wrapper::before {
-    left: 100%;
-    border-left-color: #c7eafc;
-  }
-  .messages .message.right .text {
-    color: #45829b;
-  }
-  .messages .message.appeared {
-    opacity: 1;
-  }
-  .messages .message .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .messages .message .text_wrapper {
-    display: inline-block;
-    padding: 20px;
-    border-radius: 6px;
-    width: calc(100% - 85px);
-    min-width: 100px;
-    position: relative;
-  }
-  .messages .message .text_wrapper::after,
-  .messages .message .text_wrapper:before {
-    top: 18px;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-  .messages .message .text_wrapper::after {
-    border-width: 13px;
-    margin-top: 0px;
-  }
-  .messages .message .text_wrapper::before {
-    border-width: 15px;
-    margin-top: -2px;
-  }
-  .messages .message .text_wrapper .text {
-    font-size: 18px;
-    font-weight: 300;
-  }
-  
-  .bottom_wrapper {
-    position: relative;
-    width: 100%;
-    background-color: #fff;
-    padding: 10px 10px;
-    position: absolute;
-    bottom: 0;
-  }
-  .bottom_wrapper .message_input_wrapper {
-    display: inline-block;
-    height: 50px;
-    border-radius: 25px;
-    border: 1px solid #bcbdc0;
-    width: calc(100% - 160px);
-    position: relative;
-    padding: 0 20px;
-  }
-  .bottom_wrapper .message_input_wrapper .message_input {
-    border: none;
-    height: 100%;
-    box-sizing: border-box;
-    width: calc(100% - 40px);
-    position: absolute;
-    outline-width: 0;
-    color: gray;
-  }
-  .bottom_wrapper .send_message {
-    width: 140px;
-    height: 50px;
-    display: inline-block;
-    border-radius: 50px;
-    background-color: #a3d063;
-    border: 2px solid #a3d063;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.2s linear;
-    text-align: center;
-    float: right;
-  }
-  .bottom_wrapper .send_message:hover {
-    color: #a3d063;
-    background-color: #fff;
-  }
-  .bottom_wrapper .send_message .text {
-    font-size: 18px;
-    font-weight: 300;
-    display: inline-block;
-    line-height: 48px;
-  }
-  
-  .message_template {
-    display: none;
-  }
-  
-  .messages > li {
-    font-size: 15px;
-    color: rgb(13, 223, 153);
-    background: #f7a30675;
-    border-radius: 5px;
-    width: fit-content;
-  }
-  
-  .messages > span {
-    font-size: 10px;
-    font-style: italic;
-  }
+      body {
+        margin-left: 20px;
+        margin-top: 30px;
+        background: url('https://cdn.dribbble.com/users/74401/screenshots/1645509/astronaut.png') no-repeat center center fixed;
+        background-size: 100% 100%;
+      }
+
+      .chat-section {
+        display: none;
+      }
+
+      #noMsgErr {
+        display: none;
+      }
+
+      h1, h2 {
+        color: darkgray;
+      }
+
     </style>
   </head>
-  <body>
-    <div class="chat_window">
-    <div class="top_menu">
-        <div class="buttons">
-            <div class="button close"></div>
-            <div class="button minimize"></div>
-            <div class="button maximize"></div>
-        </div>
-        <div class="title">Chat</div>
-    </div>
-    <ul id ="messages" class="messages">
-        
-    </ul>
-     
-    <div class="bottom_wrapper clearfix">
-   <i id="typing"></i>
-    <form id="form">
-        <div class="message_input_wrapper">
-            <input id="message" class="message_input" placeholder="Type your message here..." />
-        </div>
-        <button class="send_message">
-           Send
-        </button>
-      </form>
-    </div>
-</div>
 
-    <script src="C:\Users\jasti\chatApplication\public\js\socket.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/gh/rexeze/formatTimeStamp/src/index-cdn.js"></script>
-    <script src="C:\Users\jasti\chatApplication\public\js\chat.js"></script>
+
+
+  <body>
+
+    <!-- User Registration Form. To be displayed only for the first time. -->
+    <div class="container-fluid">
+      <div id="userRegistration">
+        <h2>Register</h2>
+
+        <div class="row">
+          <div class="col-md-11">
+            <div class="well">
+              <label>Enter UserName: </label>
+              <input type="text" class="form-control" placeholder="Enter user name" id="registeredUser"
+                    onkeydown="if(event.keyCode == 13) { $('#regUserSubmitBtn').click();}"/>
+                <br>
+              <button type="button" class="btn btn-default btn-success" id="regUserSubmitBtn"> SUBMIT </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="chat-section">
+        <h1 class="text-center">HangOut</h1>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-0"  id='onlineUsersSection'>
+              <div class="well">
+                <label>Online Users:</label><br>
+                <ul id="users"></ul>
+              </div>
+            </div>
+
+          <div class="col-md-8 chatDiv">
+            <div id="chats"></div>
+
+            <div class="well" id="typeMsgSection">
+              <label for="Chats" class='peopleTyping'>Type Message: </label>
+
+              <br/>
+              <input type="text" placeholder="enter message" id="sentMessage" class="form-control"
+                      onkeydown="if(event.keyCode == 13) {$('#hitSend').click();}"></input>
+              <br/>
+
+              <div class="alert alert-danger" id="noMsgErr">
+                <p>Blank Messsages are not allowed</p>
+              </div>
+
+              <br/>
+              <div class="row">
+                <div class="col-md-10">
+                  <button class="btn btn-block btn-primary" id="hitSend">Send</button>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-warning" id="clearChat">Clear Chat</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    
+    $(document).ready(function() {
+      
+      var domHeight = document.body.scrollHeight;
+      var hasMsg = false;       // to check whether there is some value in the input message field, so that once there is a value in the input message field, we need not check again on "keyup". We only need to check once there is no value in the input message field.
+
+      console.log('domHeight', domHeight);
+      var flag = true;
+
+      /* SECTION - DOM Caching */
+      $userRegistration = $('#userRegistration');
+      $registeredUser = $('#registeredUser');
+      $users = $('#users');
+      $chats = $('#chats');
+      $sentMessage = $('#sentMessage');
+      $hitSend = $('#hitSend');
+      $clearChat = $('#clearChat');
+      $regUserSubmitBtn = $('#regUserSubmitBtn');
+      $typeMsgSection = $('#typeMsgSection');
+
+      $registeredUser.focus();      // giving the user name input field the cursor.
+
+      var socketClient = io();
+      socketClient.on('connect', function() {
+        console.log('connected on client - ', socketClient.id);
+        if($chats.html() == 0) {
+          $clearChat.attr('disabled', true);
+        }
+        $hitSend.attr('disabled', true);
+      });
+
+      /* SECTION - User typing the message */
+      $sentMessage.on('keyup', function() {
+        if($(this).val()) {
+          //$("#noMsgErr").hide();
+          $hitSend.attr('disabled', false);
+          
+          if(!hasMsg) {
+            hasMsg = true;      // if there is some value in the input message field, we need not check again.
+            socketClient.emit('addTypingUsers');
+          }
+
+        } else {
+          $hitSend.attr('disabled', true);
+          hasMsg = false; // if there is some value in the input message field, we might check again until there is some value.
+
+          // if there is no value in the input message field, remove the current user from "Typing users" list.
+          socketClient.emit('removeTypingUsers');
+        }
+      });
+
+      /* SECTION - Sending a new Message */
+      $hitSend.on('click', function(event) {
+        event.preventDefault();
+        let msg = $sentMessage.val();
+
+        if(msg == '') {
+          //$("#noMsgErr").show();
+          return;
+        }
+
+        $sentMessage.val('');
+        socketClient.emit("oldMessage", {msg: msg});
+        hasMsg = false;
+
+        // once the message is sent, remove the name of the user from "Typing users" list.
+        socketClient.emit('removeTypingUsers');
+        $('.peopleTyping').text('Type Message:  ');
+      });
+
+
+      /* SECTION - Clear Chat */
+      $clearChat.on('click', function() {
+        $clearChat.attr('disabled', true);  // disabling the clear chats button.
+        $sentMessage.focus();   // setting cursor on input field.
+
+        flag = true;
+        domHeight = document.body.scrollHeight;
+
+        // remove scroll bar, height, padding slowly from the chats section.
+        $chats.animate({
+          'height': '0px',
+          'overflow-y': 'hidden',
+          'padding-right': '0px'
+        }, 'slow', function() {
+          $chats.removeAttr('style');
+          $chats.empty();
+        });
+
+        $typeMsgSection.css({
+          'margin-top': '0px'
+        });
+
+        $('.peopleTyping').text('Type Message:  ');
+      });
+
+
+      /* SECTION - User Registration */
+      $regUserSubmitBtn.on('click', function() {
+        var currentUser = $registeredUser.val();
+        if(currentUser == '') {
+          alert('please enter a name');
+          return;
+        }
+
+        socketClient.emit("thisUser", {user: currentUser, onlineStatus: 'green'});
+
+        $registeredUser.val('');
+
+        $userRegistration.fadeOut("slow", function() {
+          // remove the user registration section and show chats section on the page
+          $(".chat-section").fadeIn("slow");
+
+          // activating the jquery emoji picker
+          $sentMessage.emojiPicker({
+            position: 'right'
+          });
+
+          var $emojiPickerDiv = $('#typeMsgSection > div')[0];
+          $emojiPickerDiv.style.width = '100%';
+
+          // taking care of the UI gliches that come when jquery-emoji-picker is installed
+          // makes the 'text' input take the width of the div it is enclosed in
+          $sentMessage[0].style.width = '100%';
+          // makes the 'text' input responsive
+          $sentMessage[0].style.display = 'flex';
+
+          // to put the cursor on "#sentMessage" input text field
+          $sentMessage.focus();
+        });
+      });
+      
+
+      /* SECTION - Appending new message */
+      socketClient.on('newMessage', function(data) {
+        let prevOffsetTop = 0, currOffsetTop = 0;
+
+        if($chats.html() == '') {
+          prevOffsetTop = $typeMsgSection.offset.top;
+        }
+
+        $chats.append('<div class="well well-sm" style="font-size: 18px">' + '<strong>'+ data.user + ': </strong>' + data.msg + '</div>').fadeIn('slow');
+        
+        $chats.scrollTop($chats[0].scrollHeight);
+
+        if($chats.contents().length == 1) {
+          currOffsetTop = $typeMsgSection.offset.top;
+        }
+
+        $typeMsgSection.css({
+          'margin-top': '15px'
+        });
+
+        // when the user sends a message, the "chats" section must become fixed at the end of the page. Hence, we scrolled the window down. (params : (x, y) // x = document.boyd.scrollwidth, y = document.body.scrollHeight)
+
+        //window.scrollTo(0, document.body.scrollHeight);
+        //console.log('domHeight', domHeight);
+        if(flag && ($typeMsgSection.offset().top + $typeMsgSection.height() + parseInt($typeMsgSection.css('margin-top')) 
+                      + parseInt($('body').css('margin-top')) + currOffsetTop - prevOffsetTop >= domHeight)) {
+          $chats.css({
+            'overflow-y': 'scroll',       // giving the chats section a scroll bar.
+            'padding-right': '10px',      // padding at the side of scroll bar.
+            'height': $typeMsgSection.position().top - parseInt($('body').css('margin-top')) - parseInt($typeMsgSection.css('margin-top'))
+          });
+
+          $chats.scrollTop($chats[0].scrollHeight);
+          flag = false;
+        }
+        
+        $clearChat.attr('disabled', false);
+      })
+
+
+      /* SECTION - user Online/Away - making the current user "Away" once the fouce on the browser tab is shifted*/
+      $(window).blur(function() {
+        // sending the server an event that will change the current users status to "Away" on server level.
+        socketClient.emit("updateUserStatus", 'yellow');
+        return;
+      });
+
+      /* SECTION - user Online/Away - making the current user "Online" once the focus on the browser tab is back. */
+      $(window).focus(function() {
+        // sending the server an event that will change the current users status to "Away" on server level.
+        socketClient.emit("updateUserStatus", 'green');
+        return;
+      });
+
+
+      /* SECTION - showing online users */
+      socketClient.on('all-Users', function(obj) {
+        let html = '';
+        let imgSrc = '';   // variable to store the source of either "Yellow dot" or "Green dot" (for Online/Away symbol).
+
+        for (let i = 0; i < obj.length; i++) {
+          if(obj[i].status == 'green') {
+            imgSrc = ' <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Online_dot.png" alt="online-green-dot" height="8px" width="8px"/> ';
+          } else {
+            imgSrc = ' <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Yellow_Dot_by_DraGoth.png/600px-Yellow_Dot_by_DraGoth.png" alt="online-green-dot" height="8px" width="8px"/> ';
+          }
+
+          html +=  '<li class="list-group-item"> ' + imgSrc + obj[i].user + '</li>';
+        }
+
+        $users.empty();
+        $users.append(html);
+      });
+
+      /* SECTION - showing typing users */
+      socketClient.on('showTypingUsers', function(data) {
+        let str = '';    // will store the names of users currently typing. (If their no. is less than 3)
+
+        var cnt = 0;   // variable that stores the number of people currently typing other than the current user.
+
+        data.forEach(function(obj) {
+          if(obj.uId != socketClient.id) {
+            str += obj.uName + ', ';
+            cnt++;
+          }
+        });
+
+        str = str.substring(0, str.length - 2);
+
+        if(cnt == 0) {
+          $('.peopleTyping').text('Type Message: ');
+        }
+        else if(cnt == 1) {
+          $('.peopleTyping').text('Type Message:  ' + str + ' is typing...');
+        }
+        else if(cnt == 2){
+          $('.peopleTyping').text('Type Message:  ' + str + ' are typing...');
+        }
+        else {
+          $('.peopleTyping').text('Type Message:  ' + cnt + ' people are typing...');
+        }
+        
+      });
+
+    });
+
+</script>
+
+<!-- jquery emoji picker -->
+<script type="text/javascript" src="js/jquery.emojipicker.js"></script>
+<script type="text/javascript" src="js/jquery.emojis.js"></script>
+
 </html>
-
-
-
