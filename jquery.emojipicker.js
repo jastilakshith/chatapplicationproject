@@ -72,7 +72,7 @@
     }
 
   }
-
+ 
   $.extend(EmojiPicker.prototype, {
 
     init: function() {
