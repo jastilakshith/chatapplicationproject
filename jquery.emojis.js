@@ -60,7 +60,7 @@ $.fn.emojiPicker.emojis = [
     "name": "innocent",
     "unicode": {"apple":"1F607", "google":"1F607", "twitter":"1F607"},
     "shortcode": "innocent",
-    "description": "SMILING FACE WITH HALO",
+    "description": "SMILLING FACE WITH HALO",
     "category": "people"
   },
   {
