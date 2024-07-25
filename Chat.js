@@ -5,7 +5,7 @@ const chatSchema = new Schema(
   {
     message: {
       type: String
-    },
+    }, 
     sender: {
       type: String
     }
