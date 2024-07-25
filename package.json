@@ -1,5 +1,5 @@
 {
-  "name": "chat_app_sockets",
+  "name": "chat_appp_sockets",
   "version": "1.0.0",
   "description": "a simple chat application using express.js and socket.io",
   "main": "index.js",
